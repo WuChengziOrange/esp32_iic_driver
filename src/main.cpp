@@ -34,9 +34,18 @@ void setup() {
 // }
 
 void loop() {
+  static bool is_first = false;
   uint32_t rx_buff[2] = {0};
   aw_iic_read(0x12, 0x1e9c, rx_buff, 2);
-  Serial.printf("\nx: %d, y: %d\n", rx_buff[0], rx_buff[1]);
+  if (rx_buff[0]) {
+    Serial.printf("\nx: %d, y: %d\n", rx_buff[0], rx_buff[1]);
+    is_first = true;
+  } else {
+    if(is_first) {
+      Serial.printf("\nx: %d, y: %d\n", rx_buff[0], rx_buff[1]);
+      is_first = false;
+    }
+  }
   draw_slider(rx_buff[0], rx_buff[1]);
   delay(10);
 }
