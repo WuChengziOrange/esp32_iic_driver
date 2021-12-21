@@ -26,6 +26,8 @@ void loop() {
   if (cnt == 10) {
     aw_iic_write(0x12, 0x4408, tx_buff, 1);
   }
+  // draw_dots();
+  test_cursor();
 }
 
 #else
