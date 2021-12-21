@@ -16,4 +16,5 @@ void oled_init(void);
 void oled_func(void);
 void draw_dots(void);
 void test_cursor(void);
+void draw_slider(uint32_t x, uint32_t y);
 #endif

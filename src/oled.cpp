@@ -49,3 +49,25 @@ void draw_dots(void)
       delay(100);
     }
 }
+
+void draw_slider(uint32_t x, uint32_t y)
+{
+  static uint32_t cnt = 0;
+  if (x != 0) {
+    if (cnt) {
+      cnt = 0;
+      u8g2.clearBuffer();
+    }
+    x = x * 64 / 2000;
+    y = y * 128 / 4000;
+    u8g2_DrawPixel(u8g2.getU8g2(), x, 64 - y);
+    u8g2.sendBuffer();
+  } else {
+    cnt++;
+    if (cnt == 100) {
+      u8g2.clearBuffer();
+      u8g2.sendBuffer();
+      cnt = 0;
+    }
+  }
+}

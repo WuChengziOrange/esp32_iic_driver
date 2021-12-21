@@ -2,7 +2,7 @@
 
 void aw93208_init()
 {
-    Wire1.begin(15, 16);
+    Wire1.begin(25, 26);
 }
 
 void aw93208_read(uint8_t *rx_buff)

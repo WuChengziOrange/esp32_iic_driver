@@ -4,30 +4,41 @@
 #include <aw_93208.h>
 void setup() {
   // put your setup code here, to run once:
-Serial.begin(115200);
-oled_init();
-aw93208_init();
+  uint32_t tx_buff[1] = {1};
+  Serial.begin(115200);
+  oled_init();
+  aw93208_init();
+
+  aw_iic_write(0x12, 0x4408, tx_buff, 1);
 }
 
+// static void old_loop(void){
+// // put your main code here, to run repeatedly:
+//   static uint8_t cnt = 0;
+//   uint32_t rx_buff[4] = {0};
+//   uint32_t tx_buff[1] = {1};
+//   // aw93208_read(rx_buff);
+//   aw_iic_read(0x12, 0x1ba0, rx_buff, 4);
+//   Serial.println("\nhello, arduino!");
+//   for (uint8_t i = 0; i < 4; i++) {
+//     Serial.printf("%x ",rx_buff[i]);
+//   }
+//   oled_func();
+//   delay(1000);
+//   cnt++;
+//   if (cnt == 10) {
+//     aw_iic_write(0x12, 0x4408, tx_buff, 1);
+//   }
+//   // draw_dots();
+//   test_cursor();
+// }
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  static uint8_t cnt = 0;
-  uint32_t rx_buff[4] = {0};
-  uint32_t tx_buff[1] = {1};
-  // aw93208_read(rx_buff);
-  aw_iic_read(0x12, 0x1ba0, rx_buff, 4);
-  Serial.println("\nhello, arduino!");
-  for (uint8_t i = 0; i < 4; i++) {
-    Serial.printf("%x ",rx_buff[i]);
-  }
-  oled_func();
-  delay(1000);
-  cnt++;
-  if (cnt == 10) {
-    aw_iic_write(0x12, 0x4408, tx_buff, 1);
-  }
-  // draw_dots();
-  test_cursor();
+  uint32_t rx_buff[2] = {0};
+  aw_iic_read(0x12, 0x1e9c, rx_buff, 2);
+  Serial.printf("\nx: %d, y: %d\n", rx_buff[0], rx_buff[1]);
+  draw_slider(rx_buff[0], rx_buff[1]);
+  delay(10);
 }
 
 #else
